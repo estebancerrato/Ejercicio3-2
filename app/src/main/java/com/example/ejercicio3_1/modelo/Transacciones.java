@@ -5,7 +5,7 @@ public class Transacciones {
     public static final String NameDatabase = "PM01DB";
 
     //Creacion de las tablas de la base de datos
-    public static final String tablapersonas = "personas";
+    public static final String tablaEmpleado = "empleado";
        //Creacion de los atributos
         public static final String id = "id";
         public static final String nombres = "nombres";
@@ -17,9 +17,9 @@ public class Transacciones {
 
 
         //Transacciones DDL
-        public static final String createTablePersonas = "CREATE TABLE " + tablapersonas +
+        public static final String createTablePersonas = "CREATE TABLE " + tablaEmpleado +
                 "(id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "nombres TEXT, apellidos TEXT, edad INTEGER, direccion TEXT, puesto TEXT)";
 
-        public static final String dropTablePersonas = "DROP TABLE IF EXIST" + tablapersonas;
+        public static final String dropTablePersonas = "DROP TABLE IF EXIST" + tablaEmpleado;
 }

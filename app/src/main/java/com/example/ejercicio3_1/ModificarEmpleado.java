@@ -99,7 +99,7 @@ public class ModificarEmpleado extends AppCompatActivity {
         valores.put(Transacciones.puesto, puesto.getText().toString());
         valores.put(Transacciones.direccion, direccion.getText().toString());
 
-        db.update(Transacciones.tablapersonas, valores , Transacciones.id +" = "+obtenerCodigo, null);
+        db.update(Transacciones.tablaEmpleado, valores , Transacciones.id +" = "+obtenerCodigo, null);
         db.close();
 
         Toast.makeText(getApplicationContext(), "Registro actualizado con exito"
@@ -116,7 +116,7 @@ public class ModificarEmpleado extends AppCompatActivity {
         SQLiteDatabase db = conexion.getWritableDatabase();
         String obtenerCodigo = codigo.getText().toString();
 
-        db.delete(Transacciones.tablapersonas,Transacciones.id +" = "+ obtenerCodigo, null);
+        db.delete(Transacciones.tablaEmpleado,Transacciones.id +" = "+ obtenerCodigo, null);
 
         Toast.makeText(getApplicationContext(), "Registro eliminado con exito, Codigo " + obtenerCodigo
                 ,Toast.LENGTH_LONG).show();

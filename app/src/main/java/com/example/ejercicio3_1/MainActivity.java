@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         valores.put(Transacciones.puesto, txtpuesto.getText().toString());
         valores.put(Transacciones.direccion, txtdireccion.getText().toString());
 
-        Long resultado = db.insert(Transacciones.tablapersonas, Transacciones.id, valores);
+        Long resultado = db.insert(Transacciones.tablaEmpleado, Transacciones.id, valores);
 
         Toast.makeText(getApplicationContext(), "Registro ingreso con exito, Codigo " + resultado.toString()
                 ,Toast.LENGTH_LONG).show();

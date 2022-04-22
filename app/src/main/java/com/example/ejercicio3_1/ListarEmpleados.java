@@ -78,7 +78,7 @@ public class ListarEmpleados extends AppCompatActivity {
         listaEmpleado = new ArrayList<Empleados>();
 
         //consulta BD directa
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ Transacciones.tablapersonas, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ Transacciones.tablaEmpleado, null);
 
         //RECORRER LA TABLA MOVIENDONOS SOBRE EL CURSOR
         while (cursor.moveToNext())
