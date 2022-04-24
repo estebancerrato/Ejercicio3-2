@@ -1,4 +1,4 @@
-package com.example.ejercicio3_1;
+package com.example.ejercicio3_2;
 
 import android.content.Context;
 

@@ -1,30 +1,38 @@
-package com.example.ejercicio3_1;
+package com.example.ejercicio3_2;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.example.ejercicio3_1.modelo.Empleados;
-import com.example.ejercicio3_1.modelo.SQLiteConexion;
-import com.example.ejercicio3_1.modelo.Transacciones;
+import com.example.ejercicio3_2.modelo.Empleados;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
 public class ListarEmpleados extends AppCompatActivity {
 
-    SQLiteConexion conexion;
+
     ListView lista;
     ArrayList<Empleados> listaEmpleado;
-    ArrayList <String> ArregloPersona;
+    ArrayList <String> ArregloEmpleado;
     Context context = this;
+
+    private CollectionReference collectionReference;
+
+    TextView texto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +41,11 @@ public class ListarEmpleados extends AppCompatActivity {
 
         lista = (ListView) findViewById(R.id.listaEmpleados);
 
-        conexion = new SQLiteConexion(this, Transacciones.NameDatabase,null,1);
-
+        texto = findViewById(R.id.textView7);
+        collectionReference = FirebaseFirestore.getInstance().collection("Empleados");
+        listaEmpleado = new ArrayList<>();
         obtenerlistaEmpleado();
-        //llenar grip con datos empleado
-        ArrayAdapter adp = new ArrayAdapter(this, android.R.layout.simple_list_item_checked,ArregloPersona);
-        lista.setAdapter(adp);
+
 
        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
            @Override
@@ -47,6 +54,28 @@ public class ListarEmpleados extends AppCompatActivity {
 
            }
        });
+
+    }
+
+    private void obtenerlistaEmpleado(){
+        collectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    for (QueryDocumentSnapshot item : queryDocumentSnapshots) {
+                        Empleados employee = item.toObject(Empleados.class);
+                        listaEmpleado.add(employee);
+                    }
+
+                    llenarlista();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
 
     }
 
@@ -67,42 +96,14 @@ public class ListarEmpleados extends AppCompatActivity {
     }
 
 
-    private void obtenerlistaEmpleado() {
-        //conexion a la BD modo lectura
-        SQLiteDatabase db = conexion.getReadableDatabase();
 
-        //clase empleados
-        Empleados lista_empleado = null;
-
-        //inicializar array empleados con la clase
-        listaEmpleado = new ArrayList<Empleados>();
-
-        //consulta BD directa
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ Transacciones.tablaEmpleado, null);
-
-        //RECORRER LA TABLA MOVIENDONOS SOBRE EL CURSOR
-        while (cursor.moveToNext())
-        {
-            lista_empleado = new Empleados();
-            lista_empleado.setId(cursor.getInt(0));
-            lista_empleado.setNombre(cursor.getString(1));
-            lista_empleado.setApellidos(cursor.getString(2));
-            lista_empleado.setEdad(cursor.getString(3));
-            lista_empleado.setDireccion(cursor.getString(4));
-            lista_empleado.setPuesto(cursor.getString(5));
-            listaEmpleado.add(lista_empleado);
-        }
-        cursor.close();
-        //metodo para llenar lista
-        llenarlista();
-    }
     private void llenarlista()
     {
-        ArregloPersona = new ArrayList<String>();
+        ArregloEmpleado = new ArrayList<String>();
 
         for (int i = 0; i< listaEmpleado.size(); i++)
         {
-            ArregloPersona.add(listaEmpleado.get(i).getId()+" "+
+            ArregloEmpleado.add(
                     listaEmpleado.get(i).getNombre()+" "+
                     listaEmpleado.get(i).getApellidos()+" | "+
                     listaEmpleado.get(i).getEdad()+" | "+
@@ -110,5 +111,8 @@ public class ListarEmpleados extends AppCompatActivity {
                     listaEmpleado.get(i).getPuesto());
 
         }
+
+        ArrayAdapter adp = new ArrayAdapter(this, android.R.layout.simple_list_item_checked, ArregloEmpleado);
+        lista.setAdapter(adp);
     }
 }

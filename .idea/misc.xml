@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/esteb/AndroidStudioProjects/Ejercicio3-2/app/src/main/res/layout/activity_listar_empleados.xml" value="0.29846014492753625" />
+        <entry key="..\:/Users/esteb/AndroidStudioProjects/Ejercicio3-2/app/src/main/res/layout/activity_main.xml" value="0.29846014492753625" />
+        <entry key="..\:/Users/esteb/AndroidStudioProjects/Ejercicio3-2/app/src/main/res/layout/activity_modificar_empleado.xml" value="0.2907608695652174" />
         <entry key="..\:/Users/esteb/AndroidStudioProjects/Ejercicio31/app/src/main/res/layout/activity_listar_empleados.xml" value="0.2966485507246377" />
         <entry key="..\:/Users/esteb/AndroidStudioProjects/Ejercicio31/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/esteb/AndroidStudioProjects/Ejercicio31/app/src/main/res/layout/activity_modificar_empleado.xml" value="0.2966485507246377" />

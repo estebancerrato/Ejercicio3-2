@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ejercicio3_1">
+    package="com.example.ejercicio3_2">
 
     <application
         android:allowBackup="true"
@@ -10,13 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ejercicio31">
         <activity
-            android:name=".ModificarEmpleado"
+            android:name="com.example.ejercicio3_2.ModificarEmpleado"
             android:exported="false" />
         <activity
-            android:name=".ListarEmpleados"
+            android:name="com.example.ejercicio3_2.ListarEmpleados"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.ejercicio3_2.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

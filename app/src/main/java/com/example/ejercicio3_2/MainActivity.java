@@ -1,23 +1,26 @@
-package com.example.ejercicio3_1;
+package com.example.ejercicio3_2;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.ejercicio3_1.modelo.SQLiteConexion;
-import com.example.ejercicio3_1.modelo.Transacciones;
+import com.example.ejercicio3_2.modelo.Empleados;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
     EditText txtnombre, txtapellido, txtedad, txtdireccion, txtpuesto;
-
+    private CollectionReference collectionReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnGuardar = findViewById(R.id.btnGuardar);
         Button btnListar = findViewById(R.id.btnListar);
+
+        collectionReference = FirebaseFirestore.getInstance().collection("Empleados");
 
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,25 +76,27 @@ public class MainActivity extends AppCompatActivity {
 
     private void agregarEmpleado() {
 
-        SQLiteConexion conexion = new SQLiteConexion(this, Transacciones.NameDatabase, null, 1);
+        DocumentReference documentReference = collectionReference.document();
+        String id = documentReference.getId();
+        Empleados empleados = new Empleados();
+        empleados.setId(id);
+        empleados.setNombre(txtnombre.getText().toString());
+        empleados.setApellidos(txtapellido.getText().toString());
+        empleados.setEdad(txtedad.getText().toString());
+        empleados.setDireccion(txtdireccion.getText().toString());
+        empleados.setPuesto(txtpuesto.getText().toString());
 
-        SQLiteDatabase db = conexion.getWritableDatabase();
-
-
-        ContentValues valores = new ContentValues();
-
-        valores.put(Transacciones.nombres, txtnombre.getText().toString());
-        valores.put(Transacciones.apellidos, txtapellido.getText().toString());
-        valores.put(Transacciones.edad, txtedad.getText().toString());
-        valores.put(Transacciones.puesto, txtpuesto.getText().toString());
-        valores.put(Transacciones.direccion, txtdireccion.getText().toString());
-
-        Long resultado = db.insert(Transacciones.tablaEmpleado, Transacciones.id, valores);
-
-        Toast.makeText(getApplicationContext(), "Registro ingreso con exito, Codigo " + resultado.toString()
-                ,Toast.LENGTH_LONG).show();
-
-        db.close();
+        collectionReference.document(id).set(empleados).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(getApplicationContext(), "Datos Guardados", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(), "Error al guardar", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         //despues de guardar se procede a limpiar las cajas de texto
         limpiarPantalla();

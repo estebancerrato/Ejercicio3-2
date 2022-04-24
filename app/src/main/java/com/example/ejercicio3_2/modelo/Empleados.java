@@ -1,7 +1,7 @@
-package com.example.ejercicio3_1.modelo;
+package com.example.ejercicio3_2.modelo;
 
 public class Empleados {
-    private int id;
+    private String id;
     private String nombre;
     private String apellidos;
     private String edad;
@@ -19,11 +19,11 @@ public class Empleados {
         Puesto = puesto;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -65,5 +65,17 @@ public class Empleados {
 
     public void setPuesto(String puesto) {
         Puesto = puesto;
+    }
+
+    @Override
+    public String toString() {
+        return "Empleados{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", apellidos='" + apellidos + '\'' +
+                ", edad='" + edad + '\'' +
+                ", Direccion='" + Direccion + '\'' +
+                ", Puesto='" + Puesto + '\'' +
+                '}';
     }
 }
